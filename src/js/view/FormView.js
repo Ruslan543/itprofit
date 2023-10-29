@@ -14,19 +14,18 @@ class FormView {
   _message = document.querySelector(".message");
 
   addMessage({ status, message }) {
+    this._message.textContent = message;
+    this._message.classList.remove("hidden");
+
     if (status === "success") {
       this._inputs.forEach((input) => {
         input.value = "";
       });
 
-      this._message.textContent = message;
-      this._message.classList.remove("hidden");
       this._message.classList.add("message-success");
     }
 
     if (status === "error") {
-      this._message.textContent = message;
-      this._message.classList.remove("hidden");
       this._message.classList.add("message-error");
     }
 
