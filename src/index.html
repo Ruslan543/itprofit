@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="./css/styles.css" /> -->
+
+    <!-- <script defer type="module" src="./js/controller.js"></script> -->
+
+    <title>itprofit</title>
+  </head>
+  <body>
+    <div class="hidden message message-success">Success</div>
+
+    <button class="btn btn-modal">Modal</button>
+
+    <div class="modal">
+      <div class="modal__container">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo nam
+        aliquid asperiores distinctio facilis obcaecati dolores minima libero,
+        laudantium ab odit doloribus? Labore, dolor? Fuga vitae nostrum quasi
+        non quaerat?
+      </div>
+    </div>
+
+    <div class="container">
+      <form action="" class="form">
+        <h1 class="heading-primary">Форма обратной связи</h1>
+
+        <div class="form__input-box">
+          <label for="name" class="form__label">Введите своё имя</label>
+
+          <input
+            id="name"
+            type="text"
+            placeholder="Имя"
+            class="form__input"
+            data-field="имя"
+          />
+        </div>
+
+        <div class="form__input-box">
+          <label for="email" class="form__label"
+            >Введите электронную почту</label
+          >
+
+          <input
+            id="email"
+            data-field="email"
+            type="email"
+            placeholder="Email"
+            class="form__input"
+          />
+        </div>
+
+        <div class="form__input-box">
+          <label for="phone" class="form__label">Введите номер телефона</label>
+
+          <input
+            id="phone"
+            data-field="телефон"
+            type="text"
+            placeholder="Номер телефона"
+            class="form__input form__input-phone"
+          />
+        </div>
+
+        <div class="form__input-box form__input-box--message">
+          <label for="message" class="form__label">Введите сообщение</label>
+
+          <textarea
+            id="message"
+            data-field="сообщение"
+            rows="2"
+            placeholder="..."
+            class="form__input form__input-message"
+          ></textarea>
+        </div>
+
+        <button class="btn btn-send form__btn-send">Отправить</button>
+      </form>
+    </div>
+  </body>
+</html>
