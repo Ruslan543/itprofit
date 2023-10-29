@@ -7,7 +7,10 @@ import modalView from "./view/ModalView";
 
 async function controlForm(data) {
   model.setData(data);
+
+  formView.setBtnSendDisabled(true);
   await model.sendMessage();
+  formView.setBtnSendDisabled(false);
 
   formView.addMessage(model.state.response);
 }
@@ -15,6 +18,7 @@ async function controlForm(data) {
 function init() {
   formView.addHandlerInputPhone();
   formView.addHandlerBtnSend(controlForm);
+
   modalView.addHandlerBtnModal();
   modalView.addHandlerModal();
 }

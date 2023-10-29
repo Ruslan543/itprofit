@@ -5,6 +5,8 @@ const inputmask = new Inputmask("+375 (99) 999-99-99");
 
 class FormView {
   _data;
+  _status;
+  _timeout;
 
   _parentElement = document.querySelector(".form");
   _inputPhoneElement = document.querySelector(".form__input-phone");
@@ -14,6 +16,13 @@ class FormView {
   _message = document.querySelector(".message");
 
   addMessage({ status, message }) {
+    if (this._status) {
+      this._message.classList.remove(`message-${this._status}`);
+      clearTimeout(this._timeout);
+    }
+
+    this._status = status;
+
     this._message.textContent = message;
     this._message.classList.remove("hidden");
     this._message.classList.add(`message-${status}`);
@@ -24,11 +33,10 @@ class FormView {
       });
     }
 
-    setTimeout(() => {
-      this._message.classList.remove("message-error");
-      this._message.classList.remove("message-success");
+    this.timeout = setTimeout(() => {
+      this._message.classList.remove(`message-${status}`);
       this._message.classList.add("hidden");
-    }, 5000);
+    }, 3000);
   }
 
   addHandlerInputPhone() {
@@ -53,6 +61,10 @@ class FormView {
       const isAllValueFill = !Object.values(this._data).some((value) => !value);
       if (isAllValueFill) handler(this._data);
     });
+  }
+
+  setBtnSendDisabled(isDisabled) {
+    this._btnSendElement.disabled = isDisabled;
   }
 
   _isValidateInputs() {
