@@ -33,7 +33,7 @@ class FormView {
       });
     }
 
-    this.timeout = setTimeout(() => {
+    this._timeout = setTimeout(() => {
       this._message.classList.remove(`message-${status}`);
       this._message.classList.add("hidden");
     }, 3000);
