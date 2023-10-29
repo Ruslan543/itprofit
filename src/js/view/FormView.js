@@ -4,6 +4,8 @@ import Inputmask from "inputmask";
 const inputmask = new Inputmask("+375 (99) 999-99-99");
 
 class FormView {
+  _data;
+
   _parentElement = document.querySelector(".form");
   _inputPhoneElement = document.querySelector(".form__input-phone");
   _btnSendElement = document.querySelector(".form__btn-send");
@@ -45,63 +47,70 @@ class FormView {
     this._btnSendElement.addEventListener("click", (event) => {
       event.preventDefault();
 
-      const data = {
+      this._data = {
         name: "",
         email: "",
         phone: "",
         message: "",
       };
 
-      this._inputs.forEach((input) => {
-        const formInputBox = input.closest(".form__input-box");
-        const inputErrorMessage = formInputBox.querySelector(
-          ".form__input-error-message"
-        );
-        inputErrorMessage?.remove();
+      this._isValidateInputs();
 
-        const { value, dataset, id } = input;
-
-        if (!value) {
-          input.insertAdjacentHTML(
-            "afterend",
-            this._markupError(`Заполните поле ${dataset.field}`)
-          );
-
-          return;
-        }
-
-        if (id === "phone") {
-          const countNumbers = value
-            .replaceAll(" ", "")
-            .split("")
-            .reduce((acc, element) => (!isNaN(element) ? acc + 1 : acc), 0);
-
-          if (countNumbers !== 12) {
-            input.insertAdjacentHTML(
-              "afterend",
-              this._markupError(`Длина поля должна быть 12 цифр`)
-            );
-
-            return;
-          }
-        }
-
-        if (id === "email" && !this._isEmailValidate(value)) {
-          input.insertAdjacentHTML(
-            "afterend",
-            this._markupError(`Введите корректный email адрес`)
-          );
-
-          return;
-        }
-
-        data[id] = value;
-      });
-
-      const isAllValueFill = !Object.values(data).some((value) => !value);
-
-      if (isAllValueFill) handler(data);
+      const isAllValueFill = !Object.values(this._data).some((value) => !value);
+      if (isAllValueFill) handler(this._data);
     });
+  }
+
+  _isValidateInputs() {
+    this._inputs.forEach((input) => {
+      const formInputBox = input.closest(".form__input-box");
+      const inputErrorMessage = formInputBox.querySelector(
+        ".form__input-error-message"
+      );
+
+      inputErrorMessage?.remove();
+
+      const { value, id } = input;
+
+      if (!value) {
+        return this._addErrorValue(input);
+      }
+
+      if (id === "phone" && !this._isPhoneValidate(value)) {
+        return this._addErrorPhone(input);
+      }
+
+      if (id === "email" && !this._isEmailValidate(value)) {
+        return this._addErrorEmail(input);
+      }
+
+      this._data[id] = value;
+    });
+  }
+
+  _addErrorValue(input) {
+    const { value, dataset } = input;
+
+    if (!value) {
+      input.insertAdjacentHTML(
+        "afterend",
+        this._markupError(`Заполните поле ${dataset.field}`)
+      );
+    }
+  }
+
+  _addErrorPhone(input) {
+    input.insertAdjacentHTML(
+      "afterend",
+      this._markupError(`Номер телефона должен содержать 12 цифр`)
+    );
+  }
+
+  _addErrorEmail(input) {
+    input.insertAdjacentHTML(
+      "afterend",
+      this._markupError(`Введите корректный email адрес`)
+    );
   }
 
   _markupError(message) {
@@ -114,6 +123,15 @@ class FormView {
 
   _isEmailValidate(email) {
     return EMAIL_REGEXP.test(email);
+  }
+
+  _isPhoneValidate(value) {
+    const isPhone = value
+      .replaceAll(" ", "")
+      .split("")
+      .reduce((acc, element) => (!isNaN(element) ? acc + 1 : acc), 0);
+
+    return isPhone === 12;
   }
 }
 
