@@ -16,17 +16,12 @@ class FormView {
   addMessage({ status, message }) {
     this._message.textContent = message;
     this._message.classList.remove("hidden");
+    this._message.classList.add(`message-${status}`);
 
     if (status === "success") {
       this._inputs.forEach((input) => {
         input.value = "";
       });
-
-      this._message.classList.add("message-success");
-    }
-
-    if (status === "error") {
-      this._message.classList.add("message-error");
     }
 
     setTimeout(() => {
@@ -68,6 +63,7 @@ class FormView {
       );
 
       inputErrorMessage?.remove();
+      input.classList.remove("form__error-input");
 
       const { value, id } = input;
 
@@ -88,17 +84,19 @@ class FormView {
   }
 
   _addErrorValue(input) {
-    const { value, dataset } = input;
+    const { dataset } = input;
 
-    if (!value) {
-      input.insertAdjacentHTML(
-        "afterend",
-        this._markupError(`Заполните поле ${dataset.field}`)
-      );
-    }
+    this._addErrorToInput(input);
+
+    input.insertAdjacentHTML(
+      "afterend",
+      this._markupError(`Заполните поле ${dataset.field}`)
+    );
   }
 
   _addErrorPhone(input) {
+    this._addErrorToInput(input);
+
     input.insertAdjacentHTML(
       "afterend",
       this._markupError(`Номер телефона должен содержать 12 цифр`)
@@ -106,10 +104,16 @@ class FormView {
   }
 
   _addErrorEmail(input) {
+    this._addErrorToInput(input);
+
     input.insertAdjacentHTML(
       "afterend",
       this._markupError(`Введите корректный email адрес`)
     );
+  }
+
+  _addErrorToInput(input) {
+    input.classList.add("form__error-input");
   }
 
   _markupError(message) {
