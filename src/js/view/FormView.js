@@ -45,8 +45,8 @@ class FormView {
     });
   }
 
-  addHandlerBtnSend(handler) {
-    this._btnSendElement.addEventListener("click", (event) => {
+  addHandlerFormSubmit(handler) {
+    this._parentElement.addEventListener("submit", (event) => {
       event.preventDefault();
 
       this._data = {

@@ -17,7 +17,7 @@ async function controlForm(data) {
 
 function init() {
   formView.addHandlerInputPhone();
-  formView.addHandlerBtnSend(controlForm);
+  formView.addHandlerFormSubmit(controlForm);
 
   modalView.addHandlerBtnModal();
   modalView.addHandlerModal();
