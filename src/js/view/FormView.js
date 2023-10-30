@@ -12,6 +12,7 @@ class FormView {
   _inputPhoneElement = document.querySelector(".form__input-phone");
   _btnSendElement = document.querySelector(".form__btn-send");
   _inputs = document.querySelectorAll(".form__input");
+  _inputsBox = document.querySelectorAll(".form__input-box");
 
   _message = document.querySelector(".message");
 
@@ -56,7 +57,7 @@ class FormView {
         message: "",
       };
 
-      this._isValidateInputs();
+      this._isValidateInputsBox();
 
       const isAllValueFill = !Object.values(this._data).some((value) => !value);
       if (isAllValueFill) handler(this._data);
@@ -67,15 +68,15 @@ class FormView {
     this._btnSendElement.disabled = isDisabled;
   }
 
-  _isValidateInputs() {
-    this._inputs.forEach((input) => {
-      const formInputBox = input.closest(".form__input-box");
-      const inputErrorMessage = formInputBox.querySelector(
+  _isValidateInputsBox() {
+    this._inputsBox.forEach((inputBox) => {
+      const input = inputBox.querySelector(".form__input");
+      const inputErrorMessage = inputBox.querySelector(
         ".form__input-error-message"
       );
 
-      inputErrorMessage?.remove();
       input.classList.remove("form__error-input");
+      inputErrorMessage?.remove();
 
       const { value, id } = input;
 
